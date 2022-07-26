@@ -38,8 +38,7 @@ struct HomeCoordinator:HomeCoordinating{
     }
     
     func navigateToDetails(withModel model: Article) {
-        guard let nav = tabBar.navigationController else {return}
-        let detailsCoordinator = DetailsCoordinator(nav: nav,model:model)
+        let detailsCoordinator = DetailsCoordinator(tabBar: tabBar,model:model)
         detailsCoordinator.start()
         
     }

@@ -23,8 +23,8 @@ class HomeCell: UITableViewCell {
             
             return
         }
-
-        uiImage.sd_setImage(with: urlImage)
+        uiImage.sd_imageIndicator = SDWebImageActivityIndicator.grayLarge
+        uiImage.sd_setImage(with: urlImage,placeholderImage:R.image.placeholder(compatibleWith: nil))
         uiTitle.text = title
         self.author.text = author
         self.time.text = time.toDate(WithFormate: .d_MMM_yyyy)

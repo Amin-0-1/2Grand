@@ -20,10 +20,9 @@ struct AppCoordinator:Coordinating{
         self.window = window
     }
     func start() {
-        let nav = UINavigationController()
-        nav.navigationBar.prefersLargeTitles = true
-        let tabBarCoordinator = TabBarCoordinator(nav: nav)
-        window.rootViewController = nav
+//        let nav = UINavigationController()
+//        nav.navigationBar.prefersLargeTitles = true
+        let tabBarCoordinator = TabBarCoordinator(window: window)
         window.makeKeyAndVisible()
         tabBarCoordinator.start()
     }

@@ -20,7 +20,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aop-1Y-1Fe">
                         <rect key="frame" x="8" y="8" width="557" height="425"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img" translatesAutoresizingMaskIntoConstraints="NO" id="ZF2-PR-IWb">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="ZF2-PR-IWb">
                                 <rect key="frame" x="8" y="46" width="541" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="evQ-HA-5I1"/>
@@ -118,8 +118,8 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="img" width="960" height="540"/>
         <image name="person.crop.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="placeholder" width="80" height="60"/>
         <systemColor name="systemGray6Color">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

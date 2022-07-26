@@ -17,7 +17,7 @@ class DetailsVC: UIViewController {
     @IBOutlet weak var uiDesc: UILabel!
     
     var model:Article!
-
+    var viewModel:DetailsVMPrtotocol!
     override func viewDidLoad() {
         super.viewDidLoad()
         uiName.text = model.author
@@ -28,6 +28,13 @@ class DetailsVC: UIViewController {
         guard let image = model.urlToImage ,let imageUrl = URL(string: image) else {return}
         uiImage.sd_setImage(with: imageUrl)
         
-        
+    }
+    @IBAction func uiLinkButton(_ sender: UIButton) {
+        let vc = NewsSourceVC()
+        vc.url = model.url
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    @IBAction func uiClose(_ sender: UIButton) {
+        viewModel.input.dismiss.onNext(())
     }
 }

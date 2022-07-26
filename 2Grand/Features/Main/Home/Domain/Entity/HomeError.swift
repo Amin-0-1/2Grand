@@ -10,6 +10,7 @@ import Foundation
 enum HomeError:Error,CustomStringConvertible{
     case OK
     case ServerError
+    case TooMany
     case Internet
 }
 
@@ -22,6 +23,8 @@ extension HomeError{
             return "Internal server error, Please try again later"
         case .Internet:
             return "No Internet Connection, Please try again later..."
+        case .TooMany:
+            return "Too many requests, please try again later ..."
         }
     }
 }

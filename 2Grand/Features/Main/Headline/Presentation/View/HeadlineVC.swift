@@ -9,6 +9,7 @@ import UIKit
 
 class HeadlineVC: UIViewController {
 
+    @IBOutlet weak var uiCollectionView: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
     }

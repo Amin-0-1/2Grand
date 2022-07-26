@@ -132,13 +132,13 @@ struct R: Rswift.Validatable {
 
   /// This `R.image` struct is generated, and contains static references to 1 images.
   struct image {
-    /// Image `img`.
-    static let img = Rswift.ImageResource(bundle: R.hostingBundle, name: "img")
+    /// Image `placeholder`.
+    static let placeholder = Rswift.ImageResource(bundle: R.hostingBundle, name: "placeholder")
 
     #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "img", bundle: ..., traitCollection: ...)`
-    static func img(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.img, compatibleWith: traitCollection)
+    /// `UIImage(named: "placeholder", bundle: ..., traitCollection: ...)`
+    static func placeholder(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.placeholder, compatibleWith: traitCollection)
     }
     #endif
 
@@ -299,6 +299,7 @@ struct _R: Rswift.Validatable {
 
       static func validate() throws {
         if #available(iOS 13.0, *) { if UIKit.UIImage(systemName: "person.crop.circle.fill") == nil { throw Rswift.ValidationError(description: "[R.swift] System image named 'person.crop.circle.fill' is used in nib 'DetailsVC', but couldn't be loaded.") } }
+        if UIKit.UIImage(named: "placeholder", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'placeholder' is used in nib 'DetailsVC', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
         }
       }
@@ -329,8 +330,8 @@ struct _R: Rswift.Validatable {
       }
 
       static func validate() throws {
-        if UIKit.UIImage(named: "img", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'img' is used in nib 'HomeCell', but couldn't be loaded.") }
         if #available(iOS 13.0, *) { if UIKit.UIImage(systemName: "person.crop.circle.fill") == nil { throw Rswift.ValidationError(description: "[R.swift] System image named 'person.crop.circle.fill' is used in nib 'HomeCell', but couldn't be loaded.") } }
+        if UIKit.UIImage(named: "placeholder", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'placeholder' is used in nib 'HomeCell', but couldn't be loaded.") }
         if #available(iOS 11.0, tvOS 11.0, *) {
         }
       }

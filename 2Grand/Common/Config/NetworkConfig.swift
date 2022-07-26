@@ -12,7 +12,7 @@ class NetworkConfig{
     private init(){}
     
     let BASE_URL = "https://newsapi.org/v2/"
-    let API_KEY = "de0932191b6944cf8b77d4a4de376a53"
+    let API_KEY = "6b4e57346216417a86f490c720a74932"
     
 }
 

@@ -15,9 +15,11 @@ protocol HomeInput{
     var configureCell:PublishSubject<(cell:HomeCell,indexPath:IndexPath)>{get}
     var onPaginate:PublishSubject<Void>{get}
     var onSelect:PublishSubject<IndexPath>{get}
+    var onSearch:PublishSubject<String?>{get}
 }
 
 struct HomeVMInput:HomeInput{
+    var onSearch: PublishSubject<String?>
     var onSelect: PublishSubject<IndexPath>
     var onPaginate: PublishSubject<Void>
     var configureCell: PublishSubject<(cell:HomeCell,indexPath:IndexPath)>
@@ -28,6 +30,7 @@ struct HomeVMInput:HomeInput{
         onScreenAppeared = PublishSubject<Void>()
         onPaginate = PublishSubject()
         onSelect = PublishSubject()
+        onSearch = PublishSubject()
     }
 }
 
@@ -36,9 +39,15 @@ protocol HomeOutput{
     var showProgress: Driver<Void>{get}
     var hideProgress: Driver<Void>{get}
     var showError: Driver<String>{get}
+    var onFinishSearching:Observable<Void>{get}
     var modelCount: Int {get}
+    var isSearching:Bool {get}
+    var searchList:[Article] {get}
 }
 struct HomeVMOutput:HomeOutput{
+    var searchList: [Article]
+    var isSearching: Bool
+    var onFinishSearching: Observable<Void>
     var showError: Driver<String>
     var showProgress: Driver<Void>
     var hideProgress: Driver<Void>
@@ -50,19 +59,23 @@ struct HomeVMOutput:HomeOutput{
     fileprivate var showProgressSubject:PublishSubject<Void>
     fileprivate var hideProgressSubject:PublishSubject<Void>
     fileprivate var showErrorSubject: PublishSubject<String>
-    
+    fileprivate var onFinishSearchingSubject : PublishSubject<Void>
     init(){
         modelCount = 0
+        isSearching = false
+        searchList = [Article]()
         newsObsRelay = BehaviorRelay(value: [])
         onFinishFetchingNews = newsObsRelay.asDriver(onErrorJustReturn: [])
         
         hideProgressSubject = PublishSubject()
         showProgressSubject = PublishSubject()
         showErrorSubject = PublishSubject()
+        onFinishSearchingSubject = PublishSubject()
         
         hideProgress = hideProgressSubject.asDriver(onErrorJustReturn: ())
         showProgress = showProgressSubject.asDriver(onErrorJustReturn: ())
         showError = showErrorSubject.asDriver(onErrorJustReturn: "")
+        onFinishSearching = onFinishSearchingSubject.asObservable()
     }
     
 }
@@ -97,9 +110,16 @@ class HomeViewModel:HomeVMProtocol{
         
         input.configureCell.bind{ [weak self] cell,indexPath in
             guard let self = self else {return}
-            let index = indexPath.item
-            let model = self.output.newsObsRelay.value[index]
-            cell.configure(model: model)
+            
+            if !self.output.isSearching{
+                let index = indexPath.item
+                let model = self.output.newsObsRelay.value[index]
+                cell.configure(model: model)
+            }else{
+                let index = indexPath.item
+                let model = self.output.searchList[index]
+                cell.configure(model: model)
+            }
             
         }.disposed(by: bag)
         
@@ -114,6 +134,26 @@ class HomeViewModel:HomeVMProtocol{
             guard let self = self else {return}
             let model = self.output.newsObsRelay.value[indexPath.item]
             self.coordinator.navigateToDetails(withModel: model)
+        }.disposed(by: bag)
+        
+        input.onSearch.bind{ [weak self] text in
+            guard let self = self else {return}
+            guard let text = text else {return}
+            if text.isEmpty{
+                self.output.isSearching = false
+                self.output.onFinishSearchingSubject.onNext(())
+                return
+            }
+            self.output.isSearching = true
+            self.output.searchList = []
+            self.output.newsObsRelay.value.forEach { article in
+                guard let desc = article.articleDescription else {return}
+                if desc.contains(text){
+                    self.output.searchList.append(article)
+                }
+            }
+            self.output.onFinishSearchingSubject.onNext(())
+            print(self.output.searchList.count)
         }.disposed(by: bag)
     }
     private func fetchNews(paging:Bool){

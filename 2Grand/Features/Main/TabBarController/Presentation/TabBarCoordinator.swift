@@ -13,16 +13,14 @@ protocol TabBarCoordinating:Coordinating{
 }
 struct TabBarCoordinator:TabBarCoordinating{
   
-    let nav : UINavigationController!
-    
-    init(nav:UINavigationController){
-        self.nav = nav
+    private var window:UIWindow!
+    init(window:UIWindow){
+        self.window = window
     }
-    
     func start() {
         let tabBar = TabBarController.init(nibName: R.nib.tabBarController.name, bundle: nil)
         tabBar.viewModel = TabBarViewModel(coordinator: self)
-        nav.pushViewController(tabBar, animated: true)
+        window.rootViewController = tabBar
     }
     
 }

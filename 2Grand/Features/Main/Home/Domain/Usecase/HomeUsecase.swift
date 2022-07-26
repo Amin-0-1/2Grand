@@ -35,6 +35,8 @@ class HomeUseCase:HomeUseCaseProtocol{
                     failure?(HomeError.Internet.description)
                 case .ServerError:
                     failure?(HomeError.ServerError.description)
+                case .TooMany:
+                    failure?(HomeError.TooMany.description)
                 }
                 print(error.localizedDescription)
             case .success(let response):

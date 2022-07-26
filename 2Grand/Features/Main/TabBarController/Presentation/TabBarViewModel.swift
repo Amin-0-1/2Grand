@@ -13,8 +13,9 @@ protocol TabBarInput{
 }
 
 struct TabBarVMInput:TabBarInput{
-
     
+    init(){
+    }
 }
 
 protocol TabBarVMProtocol{

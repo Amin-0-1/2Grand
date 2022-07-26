@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HeadlineVC" customModule="_Grand" customModuleProvider="target">
             <connections>
+                <outlet property="uiCollectionView" destination="6JP-W6-jpv" id="8DG-dJ-DNv"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -17,8 +18,30 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="6JP-W6-jpv">
+                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="PMG-Cd-GPe">
+                        <size key="itemSize" width="128" height="128"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="uKk-yZ-Cku"/>
+                        <outlet property="delegate" destination="-1" id="HQh-P6-PNW"/>
+                    </connections>
+                </collectionView>
+            </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="6JP-W6-jpv" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="MwM-Sp-uUN"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="6JP-W6-jpv" secondAttribute="bottom" id="QgR-5w-IHY"/>
+                <constraint firstItem="6JP-W6-jpv" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="SAk-eA-dYm"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="6JP-W6-jpv" secondAttribute="trailing" id="jRg-2g-XBA"/>
+            </constraints>
             <point key="canvasLocation" x="139" y="151"/>
         </view>
     </objects>

@@ -7,19 +7,24 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 import NVActivityIndicatorView
 import Toast
-class HomeVC: UIViewController {
+class HomeVC: UIViewController ,UISearchBarDelegate{
 
     @IBOutlet weak var uiTableView: UITableView!    
-
+    @IBOutlet weak var uiSearchBar: UISearchBar!
+    
     var viewModel:HomeVMProtocol!
     private var activity : NVActivityIndicatorView!
     private var bag:DisposeBag!
+    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupActivity()
         bag = DisposeBag()
+        uiSearchBar.placeholder = "Search for anything..."
         bind()
         viewModel.input.onScreenAppeared.onNext(())
         configureTableView()
@@ -58,6 +63,10 @@ class HomeVC: UIViewController {
             let style = ToastStyle()
             self.view.makeToast(msg, duration: 2, position: .center, title: nil, image: nil, style: style, completion: nil)
         }.disposed(by: bag)
+        viewModel.output.onFinishSearching.bind{ [weak self] _ in
+            guard let self = self else {return}
+            self.uiTableView.reloadData()
+        }.disposed(by: bag)
     }
 
     private func configureTableView(){
@@ -72,16 +81,19 @@ class HomeVC: UIViewController {
     @objc func pullToRefreshSelector(){
         viewModel.input.onScreenAppeared.onNext(())
     }
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.input.onSearch.onNext(searchBar.text)
     }
 }
 
 extension HomeVC:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.output.modelCount
+        if viewModel.output.isSearching{
+            return viewModel.output.searchList.count
+        }else{
+            return viewModel.output.modelCount
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

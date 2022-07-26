@@ -9,22 +9,28 @@ import Foundation
 import UIKit
 
 protocol DetailsCoordinating:Coordinating{
-    
+    func dismiss()
 }
 
 struct DetailsCoordinator:DetailsCoordinating{
-    
-    private var nav:UINavigationController!
+ 
+    private var tabBar:UITabBarController!
     private var model:Article!
-    init(nav:UINavigationController,model:Article){
-        self.nav = nav
+    init(tabBar:UITabBarController,model:Article){
+        self.tabBar = tabBar
         self.model = model
     }
     
     func start() {
         let vc = DetailsVC.init(nibName: R.nib.detailsVC.name, bundle: nil)
         vc.model = self.model
-        nav.pushViewController(vc, animated: true)
+        vc.viewModel = DetailsViewModel(coordintor: self)
+        vc.modalPresentationStyle = .fullScreen
+        tabBar.present(vc, animated: true, completion: nil)
     }
+    func dismiss() {
+        tabBar.dismiss(animated: true, completion: nil)
+    }
+    
     
 }
