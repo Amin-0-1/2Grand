@@ -175,8 +175,10 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
 
-  /// This `R.nib` struct is generated, and contains static references to 4 nibs.
+  /// This `R.nib` struct is generated, and contains static references to 5 nibs.
   struct nib {
+    /// Nib `DetailsVC`.
+    static let detailsVC = _R.nib._DetailsVC()
     /// Nib `HeadlineVC`.
     static let headlineVC = _R.nib._HeadlineVC()
     /// Nib `HomeCell`.
@@ -185,6 +187,14 @@ struct R: Rswift.Validatable {
     static let homeVC = _R.nib._HomeVC()
     /// Nib `TabBarController`.
     static let tabBarController = _R.nib._TabBarController()
+
+    #if os(iOS) || os(tvOS)
+    /// `UINib(name: "DetailsVC", in: bundle)`
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.detailsVC) instead")
+    static func detailsVC(_: Void = ()) -> UIKit.UINib {
+      return UIKit.UINib(resource: R.nib.detailsVC)
+    }
+    #endif
 
     #if os(iOS) || os(tvOS)
     /// `UINib(name: "HeadlineVC", in: bundle)`
@@ -217,6 +227,10 @@ struct R: Rswift.Validatable {
       return UIKit.UINib(resource: R.nib.tabBarController)
     }
     #endif
+
+    static func detailsVC(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
+      return R.nib.detailsVC.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
+    }
 
     static func headlineVC(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
       return R.nib.headlineVC.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
@@ -271,7 +285,25 @@ struct _R: Rswift.Validatable {
   #if os(iOS) || os(tvOS)
   struct nib: Rswift.Validatable {
     static func validate() throws {
+      try _DetailsVC.validate()
       try _HomeCell.validate()
+    }
+
+    struct _DetailsVC: Rswift.NibResourceType, Rswift.Validatable {
+      let bundle = R.hostingBundle
+      let name = "DetailsVC"
+
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
+        return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
+      }
+
+      static func validate() throws {
+        if #available(iOS 13.0, *) { if UIKit.UIImage(systemName: "person.crop.circle.fill") == nil { throw Rswift.ValidationError(description: "[R.swift] System image named 'person.crop.circle.fill' is used in nib 'DetailsVC', but couldn't be loaded.") } }
+        if #available(iOS 11.0, tvOS 11.0, *) {
+        }
+      }
+
+      fileprivate init() {}
     }
 
     struct _HeadlineVC: Rswift.NibResourceType {
@@ -298,6 +330,7 @@ struct _R: Rswift.Validatable {
 
       static func validate() throws {
         if UIKit.UIImage(named: "img", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'img' is used in nib 'HomeCell', but couldn't be loaded.") }
+        if #available(iOS 13.0, *) { if UIKit.UIImage(systemName: "person.crop.circle.fill") == nil { throw Rswift.ValidationError(description: "[R.swift] System image named 'person.crop.circle.fill' is used in nib 'HomeCell', but couldn't be loaded.") } }
         if #available(iOS 11.0, tvOS 11.0, *) {
         }
       }

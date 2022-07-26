@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol TabBarCoordinating:Coordinating{
-    
+
 }
 struct TabBarCoordinator:TabBarCoordinating{
   
@@ -20,7 +20,9 @@ struct TabBarCoordinator:TabBarCoordinating{
     }
     
     func start() {
-        let vc = TabBarController.init(nibName: R.nib.tabBarController.name, bundle: nil)
-        nav.pushViewController(vc, animated: true)
+        let tabBar = TabBarController.init(nibName: R.nib.tabBarController.name, bundle: nil)
+        tabBar.viewModel = TabBarViewModel(coordinator: self)
+        nav.pushViewController(tabBar, animated: true)
     }
+    
 }

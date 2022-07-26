@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import SDWebImage
 class HomeCell: UITableViewCell {
     static let ID = "HOME_CELL"
     
@@ -18,8 +18,17 @@ class HomeCell: UITableViewCell {
     @IBOutlet private weak var uiTitle: UILabel!
     @IBOutlet private weak var uiDesc: UILabel!
     
-    func configure(desc:String?){
-        self.uiDesc.text = desc
+    func configure(model:Article){
+        guard let image = model.urlToImage, let urlImage = URL(string: image),let title = model.title , let author = model.author, let time = model.publishedAt , let desc = model.articleDescription else {
+            
+            return
+        }
+
+        uiImage.sd_setImage(with: urlImage)
+        uiTitle.text = title
+        self.author.text = author
+        self.time.text = time.toDate(WithFormate: .d_MMM_yyyy)
+        uiDesc.text = desc
     }
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -35,6 +44,7 @@ class HomeCell: UITableViewCell {
         layerView.layer.shadowRadius = 3
         layerView.layer.shadowOpacity = 3
         layerView.layer.shadowOffset = CGSize(width: 3, height: 3)
+        
         
     }
     
