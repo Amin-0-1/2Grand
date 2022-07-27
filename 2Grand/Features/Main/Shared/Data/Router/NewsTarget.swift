@@ -8,11 +8,12 @@
 import Foundation
 import Moya
 
-enum HomeTarget{
-    case fetch(request:HomeFetchRequest)
+enum NewsTarget{
+    case fetch(request:FetchRequest)
+    case fetchHeadlines(request:FetchRequest)
 }
 
-extension HomeTarget:TargetType{
+extension NewsTarget:TargetType{
     var baseURL: URL {
         return URL(string: NetworkConfig.shared.BASE_URL)!
     }
@@ -21,12 +22,14 @@ extension HomeTarget:TargetType{
         switch self {
         case .fetch:
             return HomeNetworkPath.AllNews.rawValue
+        case .fetchHeadlines:
+            return HomeNetworkPath.Headlines.rawValue
         }
     }
     
     var method: Moya.Method {
         switch self {
-        case .fetch:
+        default:
             return .get
         }
     }
@@ -34,6 +37,8 @@ extension HomeTarget:TargetType{
     var task: Task {
         switch self {
         case .fetch(let request):
+            return .requestParameters(parameters: request.dictionary ?? [:], encoding: URLEncoding.queryString)
+        case .fetchHeadlines(request: let request):
             return .requestParameters(parameters: request.dictionary ?? [:], encoding: URLEncoding.queryString)
         }
     }

@@ -9,4 +9,5 @@ import Foundation
 
 enum HomeNetworkPath:String{
     case AllNews = "everything"
+    case Headlines = "top-headlines"
 }

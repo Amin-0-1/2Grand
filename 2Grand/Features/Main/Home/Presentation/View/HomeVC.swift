@@ -108,7 +108,6 @@ extension HomeVC:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == viewModel.output.modelCount - 1 {
-            print("paginate")
             viewModel.input.onPaginate.onNext(())
         }
     }

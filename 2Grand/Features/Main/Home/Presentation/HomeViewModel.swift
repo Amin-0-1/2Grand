@@ -67,10 +67,11 @@ struct HomeVMOutput:HomeOutput{
         newsObsRelay = BehaviorRelay(value: [])
         onFinishFetchingNews = newsObsRelay.asDriver(onErrorJustReturn: [])
         
+        
+        onFinishSearchingSubject = PublishSubject()
         hideProgressSubject = PublishSubject()
         showProgressSubject = PublishSubject()
         showErrorSubject = PublishSubject()
-        onFinishSearchingSubject = PublishSubject()
         
         hideProgress = hideProgressSubject.asDriver(onErrorJustReturn: ())
         showProgress = showProgressSubject.asDriver(onErrorJustReturn: ())

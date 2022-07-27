@@ -8,5 +8,5 @@
 import Foundation
 
 protocol HomeRepoInterface{
-    func fetchNews(request:HomeFetchRequest,completion:@escaping(Result<AllNewsResponse,HomeError>)->Void)
+    func fetchNews(request:FetchRequest,completion:@escaping(Result<AllNewsResponse,CustomError>)->Void)
 }

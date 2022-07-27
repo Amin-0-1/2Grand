@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct HomeFetchRequest:Codable{
+struct FetchRequest:Codable{
     var page: Int = 1
     var sources: Source = .CNN
     var language:Language = .en

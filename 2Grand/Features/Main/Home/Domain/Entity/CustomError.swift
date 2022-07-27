@@ -7,14 +7,14 @@
 
 import Foundation
 
-enum HomeError:Error,CustomStringConvertible{
+enum CustomError:Error,CustomStringConvertible{
     case OK
     case ServerError
     case TooMany
     case Internet
 }
 
-extension HomeError{
+extension CustomError{
     var description: String{
         switch self {
         case .OK:

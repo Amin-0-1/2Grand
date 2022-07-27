@@ -24,19 +24,19 @@ class HomeUseCase:HomeUseCaseProtocol{
         
         if paginating {page += 1}
         
-        let req = HomeFetchRequest(page: page)
+        let req = FetchRequest(page: page)
         repo.fetchNews(request: req) { result in
             switch result{
             case .failure(let error):
                 switch error{
                 case .OK:
-                    failure?(HomeError.OK.description)
+                    failure?(CustomError.OK.description)
                 case .Internet:
-                    failure?(HomeError.Internet.description)
+                    failure?(CustomError.Internet.description)
                 case .ServerError:
-                    failure?(HomeError.ServerError.description)
+                    failure?(CustomError.ServerError.description)
                 case .TooMany:
-                    failure?(HomeError.TooMany.description)
+                    failure?(CustomError.TooMany.description)
                 }
                 print(error.localizedDescription)
             case .success(let response):

@@ -1,22 +1,22 @@
 //
-//  HomeRepository.swift
+//  HeadlineRepository.swift
 //  2Grand
 //
-//  Created by Amin on 26/07/2022.
+//  Created by Amin on 27/07/2022.
 //
 
 import Foundation
 import Moya
+class HeadlineRepository:HeadlineRepoInterface{
 
-class HomeRepository:HomeRepoInterface{
-    
     private var remote:MoyaProvider<NewsTarget>!
     init(remote:MoyaProvider<NewsTarget>){
         self.remote = remote
     }
     
-    func fetchNews(request: FetchRequest,completion: @escaping (Result<AllNewsResponse, CustomError>) -> Void) {
-        remote.request(.fetch(request: request)) { result in
+    func fetchHeadLines(request: FetchRequest, completion: @escaping (Result<AllNewsResponse, CustomError>) -> Void) {
+        
+        remote.request(.fetchHeadlines(request: request)) { result in
             switch result{
             case .success(let response):
                 if response.statusCode == 200{
@@ -29,14 +29,12 @@ class HomeRepository:HomeRepoInterface{
                 }else if response.statusCode == 500{
                     completion(.failure(.ServerError))
                 }
-                
-                
-            case .failure(_):
+            case .failure(let error):
+                print(error.localizedDescription)
                 completion(.failure(.Internet))
-                
             }
         }
     }
+    
+    
 }
-
-
